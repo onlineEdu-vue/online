@@ -1,21 +1,21 @@
 <template>
   <div>
+  <div class='my-cursor'>
     <p class='empty' v-if='filteredData.length===0'>暂无该课程</p>
-    <div class='my-cursor'>
-      <a :href="entry.url" v-for="(entry,index) in filteredData" :key="index">
-        <div class="course1">
-          <div class='course1Img'></div>
-          <div class="intruduce">
-          <p>{{entry.course}}</p>
-            <p>{{entry.change}}</p>
-          <span>{{entry.r1}}</span>
-            <span>{{entry.r2}}</span>
-          <p>已经有<b>{{entry.study}}</b>名学生在这里学习</p>
-          </div>
+    <a :href="entry.src" v-for="(entry,index) in filteredData" :key="index">
+      <div class="course1">
+        <div class='course1Img'></div>
+        <div class="intruduce">
+        <p>{{entry.title}}</p>
+          <p>{{entry.summary}}</p>
+        <span>{{entry.tag1}}</span>
+          <span>{{entry.tag2}}</span>
+        <p>已经有<b>{{entry.number}}</b>名学生在这里学习</p>
         </div>
-      </a>
-    </div>
+      </div>
+    </a>
   </div>
+</div>
 </template>
 <script>
   export default{

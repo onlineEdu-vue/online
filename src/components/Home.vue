@@ -120,52 +120,10 @@
   import MyCursor from './MyCursor.vue'
   import AdvancedCourse from './AdvancedCourse.vue'
 	export default {
-
     data(){
       return {
         searchQuery:'',
-        mycursor:[
-          {
-            course: 'HTML/CSS',
-            change: '精选课程，和我们一起零基础入门HTML/CSS，共发布6个课程，等你来挑战',
-            r1: 'HTML',
-            r2: '网页制作',
-            study: '891',
-            url:'cursorContent.html'
-          },
-          {
-            course: 'HTML/CSS',
-            change: '精选课程，和我们一起零基础入门HTML/CSS，共发布6个课程，等你来挑战',
-            r1: 'HTML',
-            r2: '网页制作',
-            study: '891',
-            url:'cursorContent.html'
-          },
-          {
-            course: 'HTML/CSS',
-            change: '精选课程，和我们一起零基础入门HTML/CSS，共发布6个课程，等你来挑战',
-            r1: 'HTML',
-            r2: '网页制作',
-            study: '891',
-            url:'cursorContent.html'
-          },
-          {
-            course: 'HTML/CSS',
-            change: '精选课程，和我们一起零基础入门HTML/CSS，共发布6个课程，等你来挑战',
-            r1: 'HTML',
-            r2: '网页制作',
-            study: '891',
-            url:'cursorContent.html'
-          },
-          {
-            course: 'HTML/CSS',
-            change: '精选课程，和我们一起零基础入门HTML/CSS，共发布6个课程，等你来挑战',
-            r1: 'HTML',
-            r2: '网页制作',
-            study: '891',
-            url:'cursorContent.html'
-          }
-        ]
+        mycursor:[],
       }
     },
 		components:{
@@ -173,6 +131,18 @@
       MyCursor,
       AdvancedCourse
 		},
+    mounted(){
+      this.fetchData();
+    },
+    methods:{
+      fetchData(){
+        this.$http.get('/home').then(res=>{
+        this.mycursor=res.data;
+        }).catch(err=>{
+          console.log(err);
+        })
+      }
+    }
 	}
 </script>
 <style scoped>

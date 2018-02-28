@@ -35,6 +35,7 @@
 </template>
 <script>
   import Vue from 'vue'
+  import Person from './Person.vue'
   export default{
     data(){
       return{
@@ -42,6 +43,9 @@
         username:'',
         password:''
       }
+    },
+    components:{
+      Person
     },
     methods:{
       hide(){
@@ -55,9 +59,11 @@
           username:this.username,
           password:this.password
         }).then((res)=>{
-          console.log(res.data);
+          this.$emit('click');
+          this.$router.push('/Person')
           //登录成功或者失败跳转的页面
         }).catch((error)=> {
+          alert('登录失败，请重新登录')
           console.log(error);
         });
       
@@ -69,8 +75,10 @@
         }).then((res)=>{
           console.log(res.data);
           //注册成功或者失败
+          alert('注册成功，请去登录')
         }).catch((error)=> {
           console.log(error);
+          alert('注册失败，请重新注册')
         });
       }
     },
