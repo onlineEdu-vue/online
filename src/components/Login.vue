@@ -18,7 +18,7 @@
                 <span><i class="icon iconfont1">&#xe618;</i></span>
                 <input type='password' placeholder='请输入密码' class='enter' v-model="password"/>
               </p>
-              <div class=registerUser v-if='isActive'>
+              <div class="registerUser" v-if='isActive'>
                 <input type='checkbox'/>下次自动登陆
                 <span class='rg'>忘记密码?</span>
               </div>
@@ -27,8 +27,8 @@
       <div slot='footer'>
         <button class='dobutton' v-if='isActive' @click='login'> 登陆</button>
         <button class='dobutton' v-else @click='regester'> 注册</button>
-        <p class='registerUser1' v-if='isActive'>免费注册</p>
-        <p class='registerUser1' v-else >去登陆</p>
+        <p class='registerUser1' v-if='isActive' @click='doregister'>免费注册</p>
+        <p class='registerUser1' v-else @click='doregister'>去登陆</p>
       </div>
     </model-vue>
   </div>
@@ -47,6 +47,12 @@
     components:{
       Person
     },
+    //监听是否有用户登录
+    watch:{
+      username(){
+        window.$bus.$on(this.username);
+      }
+    },
     methods:{
       hide(){
         this.$emit('click');
@@ -60,26 +66,36 @@
           password:this.password
         }).then((res)=>{
           this.$emit('click');
+          //console.log(res);
+          // console.log(res.data[0].username);
+          // let username=res.data[0].username;//用户的名字
+          // let integral=res.data[0].graduate;//用户的积分
+          console.log(res.data)
+          this.$store.commit('setUserName',res.data[0].username);
           this.$router.push('/Person')
           //登录成功或者失败跳转的页面
         }).catch((error)=> {
           alert('登录失败，请重新登录')
           console.log(error);
         });
-      
+        
       },
       regester(){
+        if(this.username && this.password) {
         this.$http.post('/regester',{
           username:this.username,
-          password:this.password
+          password:this.password,
         }).then((res)=>{
-          console.log(res.data);
+          //console.log(res.data);
           //注册成功或者失败
           alert('注册成功，请去登录')
         }).catch((error)=> {
           console.log(error);
           alert('注册失败，请重新注册')
         });
+        }else{
+          return alert('用户名或者密码不能为空，请重新注册');
+        }
       }
     },
     directives: {
@@ -240,11 +256,11 @@ margin: 20px 0;
 }
 .registerUser{ 
   font-size: 12px;
-  padding: 15px;
+  color:#666;
 }
 .registerUser1{ 
   font-size: 12px;
-  padding: 15px;
+  color:#666;
   text-align: right;
 }
 .dobutton{

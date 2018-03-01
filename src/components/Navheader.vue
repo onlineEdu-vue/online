@@ -14,8 +14,11 @@
 					<input type="text" placeholder="搜索 课程 / 问答" name="search" id='search' autofocus v-model='searchQuery'/>
 					<i class="iconfont">&#xe644;</i>
 				</li>
-				<li>
-					<input type="submit" value="登录" name="login" id="login" @click='show'/>
+				<li v-if="!$store.state.username">
+					<input type="submit" value="登录" name="login" class="login" @click='show'/>
+				</li>
+				<li v-else class="login">
+					{{ $store.state.username }}
 				</li>
 			</ul>
 		</nav>
@@ -25,6 +28,7 @@
 <script>
 import Login from './Login.vue'
 import Router from 'vue-router'
+import { mapActions,mapGetters} from 'vuex'
 	export default{
 		data(){
 			return {
@@ -58,12 +62,16 @@ import Router from 'vue-router'
 			Login
 		},
 		methods:{
+		
 			show(){
         this.isModelVisible=true;
 			},
 			hide(){
         this.isModelVisible=false;
 			}
+		},
+		mounted(){
+			
 		},
 		watch:{
 			searchQuery(val){
@@ -110,7 +118,7 @@ nav {
 	border-radius: 20px;
 
 }
-#login{
+.login{
 	width: 100px;
 	text-align: center;
 	line-height: 50px;

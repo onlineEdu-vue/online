@@ -10,6 +10,7 @@
 import Navheader from './components/Navheader.vue'
 import AllCursor from './components/AllCursor.vue'
 import Footer from './components/Footer.vue'
+
 export default {
   name: 'App',
   components:{

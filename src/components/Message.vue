@@ -6,6 +6,7 @@
         <div class="msg">
           <p class="comp">{{information.message}}</p>
           <ul class="comli">
+            
             <li>{{information.message1}}</li>
             <li>{{information.message2}}</li>
             <li>{{information.message3}}</li>
