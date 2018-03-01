@@ -64,12 +64,12 @@
       lear(ref){
         //这里执行了
         if(!this.$store.state.username) return alert('您没有登录，请去登录')
-        //没有执行 有执行，接口请求失败
         this.$http.post('/lear',{
           username: this.$store.state.username
         }).then((res) => {
           // 请求后的回调
-          console.log(res);//没有执行
+          console.log(res);
+          alert('支付成功开始学习');
           this.$router.push(ref)
         })
       }
