@@ -80,7 +80,7 @@ export default {
       if(this.index!==page){
         this.index=page
         //父组件通过change方法接受当前的页码
-        this.$emit('fetchData',this.index)
+        this.$emit('change',this.index)
       }
     },
     prev(){

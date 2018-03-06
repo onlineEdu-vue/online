@@ -40,16 +40,16 @@
     data () {
       return {
         pageSize : 6 , //每页显示20条数据
-        currentPage : 0, //当前页码
+        currentPage : 1, //当前页码
         count : 10, //总记录数
         cursor : []
       }
   },
     mounted(){
-      this.fetchData(this.currentPage,this.pageSize);
+      this.fetchData();
     },
     methods:{
-      fetchData(currentPage,pageSize){
+      fetchData(){
         const _params={};
         _params.offset=this.currentPage;
         _params.limit=this.pageSize;
@@ -58,10 +58,15 @@
         this.$http.post('/course',_params).then(res=>{
         this.cursor=res.data;//
         //this.count=res.data.ID.length;//记录总的记录数
-         console.log(this.cursor);
+         console.log(res.data);
         }).catch(err=>{
           console.log(err);
         })
+      },
+      pageChange(page){
+        console.log(page)
+        this.currentPage=page;
+        this.fetchData();
       },
       lear(href){
         if(!this.$store.state.username) return alert('您没有登录，请去登录')
@@ -71,8 +76,8 @@
           // 请求后的回调
           console.log(res);
           //这里要写
-          alert('你现在有????积分，学习将要扣除100积分')
-          alert('您已扣除100积分，目前还剩？？？？积分，开始学习');
+          alert(res.data.message)
+          alert(`您已扣除100积分，目前还剩${res.data.residue}积分，开始学习`);
           this.$router.push(href)
         })
       }
