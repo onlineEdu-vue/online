@@ -1,7 +1,7 @@
 <template>
   <div class='cursor'>
     <Slider></Slider>
-    <div class="cursorWrap">
+    <div class="cursorWrap" v-if='count'>
       <div class="cursorcontent" v-for='(item,index) in cursor' :key='index'>
         <div class="study">
           <div class="studyL lf">
@@ -14,63 +14,66 @@
             <p>
               {{item.description}}
             </p>
-            <div tag='li' class="button" @click="lear(item.ref)">开始学习</div>
+            <div tag='li' class="button" @click="lear(item.href)">开始学习</div>
             <router-view></router-view>
           </div>
         </div>
       </div>
+      <Page 
+        :page-index="currentPage" 
+        :totla="count" 
+        :page-size="pageSize" 
+        @change="pageChange">
+      </Page>
     </div>
   </div>
 </template>
 <script>
   import '../assets/css/cursor.css'
   import Slider from './Slider.vue'
-  import Cookie from 'js-cookie'
+  import Page from './Page.vue'
   export default{
     components:{
-      Slider
+      Slider,
+      Page
     },
-    data(){
+    data () {
       return {
-        cursor:[
-        {
-          url:'../assets/img/3.png',
-          alt1:'抽奖转盘',
-          diffi0:'难度：中等 时间：一天',
-          time:'大约有1200人学习了这门课程',
-          content:'基于CSS3实现抽奖大转盘',
-          diffi1:'中级',
-          contents:`本课程将 教会大家如何使用 CSS3 的特有属性 transform 制
-                作抽奖转盘,过程简单且富有乐趣，并在课程中穿插了一些留
-                给大家的思考题，希望大家积极参与并完成思考题，会有很多收获哦。
-                掌握基本的CSS3transform，canvas，包括以下但不限于： 了解CSS3、
-                的定义、概念发展简史 ；`,
-          ref:'cursorContent.html'
-        }]
+        pageSize : 6 , //每页显示20条数据
+        currentPage : 0, //当前页码
+        count : 10, //总记录数
+        cursor : []
       }
-    },
+  },
     mounted(){
-      this.fetchData();
+      this.fetchData(this.currentPage,this.pageSize);
     },
     methods:{
-      fetchData(){
-        this.$http.get('/course').then(res=>{
-        this.cursor=res.data;
-        // console.log(this.cursor);
+      fetchData(currentPage,pageSize){
+        const _params={};
+        _params.offset=this.currentPage;
+        _params.limit=this.pageSize;
+        //console.log(_params);
+        //接口有问题需要重新写
+        this.$http.post('/course',_params).then(res=>{
+        this.cursor=res.data;//
+        //this.count=res.data.ID.length;//记录总的记录数
+         console.log(this.cursor);
         }).catch(err=>{
           console.log(err);
         })
       },
-      lear(ref){
-        //这里执行了
+      lear(href){
         if(!this.$store.state.username) return alert('您没有登录，请去登录')
         this.$http.post('/lear',{
           username: this.$store.state.username
         }).then((res) => {
           // 请求后的回调
           console.log(res);
-          alert('支付成功开始学习');
-          this.$router.push(ref)
+          //这里要写
+          alert('你现在有????积分，学习将要扣除100积分')
+          alert('您已扣除100积分，目前还剩？？？？积分，开始学习');
+          this.$router.push(href)
         })
       }
     },
